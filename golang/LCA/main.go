@@ -5,14 +5,16 @@ import (
 )
 
 type Node struct {
-	Value interface{}
-	Nodes *[]*Node
+	Key      interface{}
+	Value    interface{}
+	Children *[]Node
 }
 
-func NewNode(value interface{}, nodes *[]*Node) *Node {
+func NewNode(value interface{}, key interface{}, nodes *[]Node) *Node {
 	return &Node{
-		Value: value,
-		Nodes: nodes,
+		Key:      key,
+		Value:    value,
+		Children: nodes,
 	}
 }
 
@@ -42,8 +44,8 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, *Node) {
 
 	// Traverse over all of the children to look for a branches that contain the input nodes.
 	branchesFound := 0
-	for _, newNode := range *current.Nodes {
-		found, answer := traverse(newNode, node1, node2)
+	for _, child := range *current.Children {
+		found, answer := traverse(&child, node1, node2)
 		if answer != nil {
 			return true, answer
 		} else if found == true {
@@ -52,7 +54,7 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, *Node) {
 	}
 
 	// If the current node is an input node, you have found a branch with an input node.
-	if (current == node1) || (current == node2) {
+	if (current.Key == node1.Key) || (current.Key == node2.Key) {
 		branchesFound++
 	}
 
