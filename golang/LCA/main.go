@@ -46,8 +46,7 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, *Node) {
 		found, answer := traverse(newNode, node1, node2)
 		if answer != nil {
 			return true, answer
-		}
-		if found == true {
+		} else if found == true {
 			branchesFound++
 		}
 	}
