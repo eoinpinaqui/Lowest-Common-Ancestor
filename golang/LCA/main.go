@@ -10,11 +10,11 @@ type Node struct {
 	Children *[]Node
 }
 
-func NewNode(value interface{}, key interface{}, nodes *[]Node) *Node {
+func NewNode(value interface{}, key interface{}, children *[]Node) *Node {
 	return &Node{
 		Key:      key,
 		Value:    value,
-		Children: nodes,
+		Children: children,
 	}
 }
 
@@ -25,11 +25,11 @@ func lowestCommonAncestor(root *Node, node1 *Node, node2 *Node) (*Node, error) {
 	}
 
 	// Traverse the tree to find the answer.
-	_, answerNode := traverse(root, node1, node2)
+	_, LCA := traverse(root, node1, node2)
 
 	// If the LCA has been found, return it with no error.
-	if answerNode != nil {
-		return answerNode, nil
+	if LCA != nil {
+		return LCA, nil
 	}
 
 	// If the LCA has not been found, return an error.
@@ -45,9 +45,9 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, *Node) {
 	// Traverse over all of the children to look for a branches that contain the input nodes.
 	branchesFound := 0
 	for _, child := range *current.Children {
-		found, answer := traverse(&child, node1, node2)
-		if answer != nil {
-			return true, answer
+		found, LCA := traverse(&child, node1, node2)
+		if LCA != nil {
+			return true, LCA
 		} else if found == true {
 			branchesFound++
 		}
