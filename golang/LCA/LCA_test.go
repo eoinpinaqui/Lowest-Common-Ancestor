@@ -1,8 +1,8 @@
 package LCA
 
 import (
-	"testing"
 	"github.com/stretchr/testify/assert"
+	"testing"
 )
 
 // This test checks the successful case with the following tree with root, node1 and node2 as inputs:
