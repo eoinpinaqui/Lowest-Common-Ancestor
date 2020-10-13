@@ -7,9 +7,9 @@ import (
 
 // This test checks the successful case with the following tree with root, node1 and node2 as inputs:
 //
-//					root
-//				   /    \
-//				node1   node2
+//                  root
+//                 /    \
+//              node1   node2
 //
 func TestLCA_Success1(t *testing.T) {
 	node1 := NewNode(1, "toFind1", nil)
@@ -23,12 +23,12 @@ func TestLCA_Success1(t *testing.T) {
 
 // This test checks the successful case with the following tree with root, node1 and node2 as inputs:
 //
-//					root
-//				   /    \
-//			   node3    node4________
-//			  /    \	     \       \
+//                  root
+//                 /    \
+//             node3    node4________
+//            /     \         \       \
 //          node1  node6____  node9   node10
-//         /	  /   |     \
+//         /      /   |     \
 //      node5 node2   node7  node8
 //
 func TestLCA_Success2(t *testing.T) {
