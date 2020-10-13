@@ -7,10 +7,10 @@ import (
 type Node struct {
 	Key      interface{}
 	Value    interface{}
-	Children *[]Node
+	Children *[]*Node
 }
 
-func NewNode(value interface{}, key interface{}, children *[]Node) *Node {
+func NewNode(key interface{}, value interface{}, children *[]*Node) *Node {
 	return &Node{
 		Key:      key,
 		Value:    value,
@@ -44,12 +44,15 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, *Node) {
 
 	// Traverse over all of the children to look for a branches that contain the input nodes.
 	branchesFound := 0
-	for _, child := range *current.Children {
-		found, LCA := traverse(&child, node1, node2)
-		if LCA != nil {
-			return true, LCA
-		} else if found == true {
-			branchesFound++
+
+	if current.Children != nil {
+		for _, child := range *current.Children {
+			found, LCA := traverse(child, node1, node2)
+			if LCA != nil {
+				return true, LCA
+			} else if found == true {
+				branchesFound++
+			}
 		}
 	}
 
