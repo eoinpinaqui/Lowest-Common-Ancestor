@@ -1,3 +1,5 @@
+# LCA.py
+
 class Node:
     def __init__(self, key, value):
         self.key = key
@@ -27,12 +29,13 @@ def traverse(current, node1, node2):
 
     # Traverse over all of the children to look for a branches that contain the input nodes.
     branches_found = 0
-    for child in current.children:
-        result = traverse(child, node1, node2)
-        if result[1] is not None:
-            return True, result[1]
-        elif result[0] is True:
-            branches_found = branches_found + 1
+    if current.children is not None:
+        for child in current.children:
+            result = traverse(child, node1, node2)
+            if result[1] is not None:
+                return True, result[1]
+            elif result[0] is True:
+                branches_found = branches_found + 1
 
     # If the current node is an input node, you have found a branch with an input node.
     if current.key is node1.key or current.key is node2.key:
