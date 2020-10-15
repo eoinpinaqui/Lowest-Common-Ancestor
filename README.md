@@ -24,6 +24,8 @@ Open the terminal/command prompt, navigate to the cloned repository and run the 
 ```
 cd python
 coverage run -m pytest
+coverage report
+coverafe html
 ```
 This should create a folder called /htmlcov, which contains files called index.html and LCA_py.html. These html files will show 
 code coverage for the tests. 
