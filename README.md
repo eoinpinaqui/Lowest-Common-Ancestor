@@ -11,7 +11,7 @@ If you want to run these tests locally, you need the following installed:
 Clone the repository to your local machine.  
 Open the terminal/command prompt, navigate to the cloned repository and run the following commands:
 ```
-cd /golang/LCA
+cd golang/LCA
 go test -cover -coverprofile=c.out
 go tool cover -html=c.out -o coverage.html 
 ```
