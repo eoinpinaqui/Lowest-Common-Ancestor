@@ -4,7 +4,7 @@ tree or directed acyclic graph (DAG) *T* is the lowest (i.e. deepest) node that 
 descendants, where we define each node to be a descendant of itself (so if *v* has a direct connection 
 from *w*, *w* is the lowest common ancestor). 
 
-### Prerequisite
+### Prerequisites
 If you want to run these tests locally, you need the following installed:
 
 - Go 1.x
