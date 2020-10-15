@@ -15,7 +15,7 @@ cd golang/LCA
 go test -cover -coverprofile=c.out
 go tool cover -html=c.out -o coverage.html 
 ```
-This should create a file called coverage.html that you can open in your browser. This html file will show code coverage
+This should create a file called `coverage.html` that you can open in your browser. This html file will show code coverage
 for the tests.
 
 ### Running the Python Tests Locally
@@ -27,5 +27,5 @@ coverage run -m pytest
 coverage report
 coverafe html
 ```
-This should create a folder called /htmlcov, which contains files called index.html and LCA_py.html. These html files will show 
+This should create a folder called `/htmlcov`, which contains files called `index.html` and `LCA_py.html`. These html files will show 
 code coverage for the tests. 
