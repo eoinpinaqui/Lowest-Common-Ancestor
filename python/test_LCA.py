@@ -36,9 +36,9 @@ class MyTestCase(unittest.TestCase):
         node6 = Node(6, "node6")
         node6.children = [node2, node7, node8]
         node3 = Node(3, "node3")
-        node3.children = [node1, node6]
+        node3.children = [node1, None, node6]
         node4 = Node(4, "node4")
-        node4.children = [node9, node10]
+        node4.children = [node9, None, node10]
         root = Node(0, "root")
         root.children = [node3, node4]
         self.assertEqual(node3, lowest_common_ancestor(root, node1, node2))
