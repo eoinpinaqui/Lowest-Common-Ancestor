@@ -1,4 +1,8 @@
 # Lowest-Common-Ancestor
+This repository contains source code for a solution to the Lowest Common Ancestor problem in two languages:
+- **Golang**: A language with which I am intimately familiar.
+- **Python**: A language with which I have very limited experience.
+
 ### Prerequisites
 If you want to run these tests locally, you need the following installed:
 
