@@ -5,12 +5,13 @@ import (
 	"testing"
 )
 
-// This test checks the successful case with the following tree with root, node1 and node2 as inputs:
-//
-//                  root
-//                 /    \
-//              node1   node2
-//
+/* This test checks the successful case with the following tree with root, node1 and node2 as inputs:
+
+                  root
+                 /    \
+              node1   node2
+
+ */
 func TestLCA_Success1(t *testing.T) {
 	node1 := NewNode(1, "toFind1", nil)
 	node2 := NewNode(2, "toFind2", nil)
@@ -21,16 +22,16 @@ func TestLCA_Success1(t *testing.T) {
 	assert.Nil(t, err, "error should not be created when an LCA is found")
 }
 
-// This test checks the successful case with the following tree with root, node1 and node2 as inputs:
-//
-//                  root
-//                 /    \
-//             node3    node4________
-//            /     \         \       \
-//          node1  node6____  node9   node10
-//         /      /   |     \
-//      node5 node2   node7  node8
-//
+/* This test checks the successful case with the following tree with root, node1 and node2 as inputs:
+
+                  root
+                 /    \
+             node3    node4________
+            /     \         \       \
+          node1  node6____  node9   node10
+         /      /   |     \
+      node5 node2   node7  node8
+ */
 func TestLCA_Success2(t *testing.T) {
 	node5 := NewNode(5, "node5", nil)
 	node2 := NewNode(2, "node2", nil)
@@ -47,6 +48,68 @@ func TestLCA_Success2(t *testing.T) {
 	answer, err := lowestCommonAncestor(root, node1, node2)
 
 	assert.Equal(t, node3, answer, "the root should be the LCA of node1 and node2")
+	assert.Nil(t, err, "error should not be created when an LCA is found")
+}
+
+/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+
+                           root
+                          /    \
+                       node3   node4
+                      /     \ /     \
+                   node1    node2   node5
+ */
+func TestLCA_DAG1(t *testing.T) {
+	node5 := NewNode(5, "node5", nil)
+	node2 := NewNode(2, "node2", nil)
+	node1 := NewNode(1, "node1", nil)
+	node3 := NewNode(3, "node3", &[]*Node{node1, node2})
+	node4 := NewNode(4, "node4", &[]*Node{node2, node5})
+	root := NewNode(0, "root", &[]*Node{node3, node4})
+
+	answer, err := lowestCommonAncestor(root, node1, node2)
+
+	assert.Equal(t, node3, answer, "the root should be the LCA of node1 and node2")
+	assert.Nil(t, err, "error should not be created when an LCA is found")
+}
+
+/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+
+           root
+          /    \
+       node1   /
+      /     \ /
+   node3    node2
+*/
+func TestLCA_DAG2(t *testing.T) {
+	node3 := NewNode(3, "node3", nil)
+	node2 := NewNode(2, "node2", nil)
+	node1 := NewNode(1, "node1",  &[]*Node{node2, node3})
+	root := NewNode(0, "root", &[]*Node{node1, node2})
+
+	answer, err := lowestCommonAncestor(root, node1, node2)
+
+	assert.Equal(t, root, answer, "the root should be the LCA of node1 and node2")
+	assert.Nil(t, err, "error should not be created when an LCA is found")
+}
+
+/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+
+           root
+          /
+       node1
+      /     \
+   node3    node2
+*/
+func TestLCA_DAG3(t *testing.T) {
+	node3 := NewNode(3, "node3", nil)
+	node2 := NewNode(2, "node2", nil)
+	node1 := NewNode(1, "node1",  &[]*Node{node2, node3})
+	root := NewNode(0, "root", &[]*Node{node1})
+
+	answer, err := lowestCommonAncestor(root, node1, node2)
+
+	assert.Equal(t, root, answer, "the root should be the LCA of node1 and node2")
 	assert.Nil(t, err, "error should not be created when an LCA is found")
 }
 
