@@ -113,6 +113,28 @@ func TestLCA_DAG3(t *testing.T) {
 	assert.Nil(t, err, "error should not be created when an LCA is found")
 }
 
+/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+
+           root
+          /
+       node3
+           \
+           node1
+               \
+              node2
+*/
+func TestLCA_DAG4(t *testing.T) {
+	node2 := NewNode(2, "node2", nil)
+	node1 := NewNode(1, "node1",  &[]*Node{node2})
+	node3 := NewNode(3, "node3", &[]*Node{node1})
+	root := NewNode(0, "root", &[]*Node{node3})
+
+	answer, err := lowestCommonAncestor(root, node1, node2)
+
+	assert.Equal(t, node3, answer, "the root should be the LCA of node1 and node2")
+	assert.Nil(t, err, "error should not be created when an LCA is found")
+}
+
 // This test checks the case where an LCA does not exist between two nodes
 func TestLCA_NoLCAExists(t *testing.T) {
 	node1 := NewNode(1, "node1", nil)
