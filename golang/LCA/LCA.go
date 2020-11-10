@@ -61,13 +61,21 @@ func (d *DAG) LCA(node1 *Node, node2 *Node) (*Node, error) {
 		return nil, errors.New("nil parameters present")
 	}
 
-	// Mark all nodes in the graph as unvisited
-	d.markAllNodesAsUnvisited()
+	// Store the values of visited for node1 and node2 so they can be restored later
+	node1original := node1.Visited
+	node2original := node2.Visited
 
 	// Check all nodes to find the LCA.
 	for _, node := range d.Nodes {
+		// Set the visited fields to unvisited
+		node1.markAsUnvisited()
+		node2.markAsUnvisited()
+
 		_, _, LCA := traverse(node, node1, node2)
-		d.markAllNodesAsUnvisited()
+
+		// Restore the visited fields
+		node1.Visited = node1original
+		node2.Visited = node2original
 
 		// If the LCA has been found, return it with no error.
 		if LCA != nil {
