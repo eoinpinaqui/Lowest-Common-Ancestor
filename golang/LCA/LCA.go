@@ -8,6 +8,7 @@ import (
 type Node struct {
 	Key      interface{}
 	Value    interface{}
+	Visited  bool
 	Children *[]*Node
 }
 
@@ -15,24 +16,42 @@ func NewNode(key interface{}, value interface{}, children *[]*Node) *Node {
 	return &Node{
 		Key:      key,
 		Value:    value,
+		Visited:  false,
 		Children: children,
 	}
 }
 
-// The DAG struct is used to represent a Directed Acyclic Graphs.
+// The markAsVisited function marks a node as visited.
+func (n *Node) markAsVisited() {
+	n.Visited = true
+}
+
+// The markAsUnvisited function marks a node as unvisited.
+func (n *Node) markAsUnvisited() {
+	n.Visited = false
+}
+
+// The DAG struct is used to represent Directed Acyclic Graphs.
 type DAG struct {
-	Nodes 	[]*Node
+	Nodes []*Node
 }
 
 func NewDAG() *DAG {
 	return &DAG{
-		Nodes:	make([]*Node, 0),
+		Nodes: make([]*Node, 0),
 	}
 }
 
 // The addNode function adds a node to the DAG
 func (d *DAG) addNode(node *Node) {
 	d.Nodes = append(d.Nodes, node)
+}
+
+// The markAllNodesAsUnvisited function marks all nodes in the DAG as unvisited
+func (d *DAG) markAllNodesAsUnvisited() {
+	for _, node := range d.Nodes {
+		node.markAsUnvisited()
+	}
 }
 
 // The LCA function returns the lowest common ancestor of two given nodes in the DAG
@@ -42,9 +61,13 @@ func (d *DAG) LCA(node1 *Node, node2 *Node) (*Node, error) {
 		return nil, errors.New("nil parameters present")
 	}
 
+	// Mark all nodes in the graph as unvisited
+	d.markAllNodesAsUnvisited()
+
 	// Check all nodes to find the LCA.
 	for _, node := range d.Nodes {
 		_, _, LCA := traverse(node, node1, node2)
+		d.markAllNodesAsUnvisited()
 
 		// If the LCA has been found, return it with no error.
 		if LCA != nil {
@@ -73,7 +96,7 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, int, *Node) {
 				return true, branches, LCA
 			} else if branches >= 2 {
 				return true, branches, current
-			} else if found == true {
+			} else if found {
 				branchesFound++
 			}
 		}
@@ -85,8 +108,9 @@ func traverse(current *Node, node1 *Node, node2 *Node) (bool, int, *Node) {
 	}
 
 	// If the current node is an input node, you have found a branch with an input node.
-	if (current.Key == node1.Key) || (current.Key == node2.Key) {
+	if (current.Key == node1.Key && !node1.Visited) || (current.Key == node2.Key && !node2.Visited) {
 		branchesFound++
+		current.markAsVisited()
 	}
 
 	// Return if you have found any branches with at least one input node.

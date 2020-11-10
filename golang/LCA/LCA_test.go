@@ -126,7 +126,7 @@ func TestLCA_DAG2(t *testing.T) {
 	assert.Nil(t, err, "error should not be created when an LCA is found")
 }
 
-/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+/* This test checks the successful case with the following DAG with node1 and node2 as inputs:
 
                node0
               /
@@ -152,7 +152,7 @@ func TestLCA_DAG3(t *testing.T) {
 	assert.Nil(t, err, "error should not be created when an LCA is found")
 }
 
-/* This test checks the successful case with the following DAG with root, node1 and node2 as inputs:
+/* This test checks the successful case with the following DAG with node1 and node2 as inputs:
 
            node0     node3
           /     \   /    \
@@ -183,7 +183,14 @@ func TestLCA_DAG4(t *testing.T) {
 }
 
 
-// This test checks the case where an LCA does not exist between two nodes
+/* This test checks the unsuccessful case with the following DAG with node1 and node2 as inputs:
+
+             node3
+             /
+          node1    node2
+
+
+*/
 func TestLCA_NoLCAExists(t *testing.T) {
 	node1 := NewNode(1, "node1", nil)
 	node2 := NewNode(2, "node2", nil)
@@ -193,6 +200,35 @@ func TestLCA_NoLCAExists(t *testing.T) {
 	dag.addNode(node1)
 	dag.addNode(node2)
 	dag.addNode(node3)
+
+	answer, err := dag.LCA(node1, node2)
+
+	assert.Nil(t, answer, "should return nil if there is no LCA")
+	assert.NotNil(t, err, "error should be created if there is no LCA")
+}
+
+/* This test checks the unsuccessful case with the following DAG with node1 and node2 as inputs:
+
+       node3        node2
+      /     \
+   node4   node5
+      \     /
+       node1
+
+*/
+func TestLCA_NoLCAExists2(t *testing.T) {
+	node1 := NewNode(1, "node1", nil)
+	node2 := NewNode(2, "node2", nil)
+	node4 := NewNode(4, "node4", &[]*Node{node1})
+	node5 := NewNode(5, "node5", &[]*Node{node1})
+	node3 := NewNode(3, "node3", &[]*Node{node4, node5})
+
+	dag := NewDAG()
+	dag.addNode(node1)
+	dag.addNode(node2)
+	dag.addNode(node3)
+	dag.addNode(node4)
+	dag.addNode(node5)
 
 	answer, err := dag.LCA(node1, node2)
 
